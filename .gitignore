@@ -1,0 +1,24 @@
+# Node and build artifacts (if using a bundler)
+node_modules/
+dist/
+build/
+*.map
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup or temp files
+*.bak
+*.tmp
+*.swp
+
+# Ignore everything in media except GIF demos
+media/*
+!media/*.gif

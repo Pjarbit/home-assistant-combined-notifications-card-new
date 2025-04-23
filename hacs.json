@@ -1,0 +1,11 @@
+{
+  "name": "Combined Notifications Card",
+  "filename": "combined-notifications-card.js",
+  "type": "plugin",
+  "render_readme": true,
+  "description": "Lovelace card to display alert states from the Combined Notifications integration.",
+  "documentation": "https://github.com/Pjarbit/home-assistant-combined-notifications-card-new",
+  "authors": ["@Pjarbit"],
+  "keywords": ["notifications", "alert", "card", "dashboard"]
+}
+
