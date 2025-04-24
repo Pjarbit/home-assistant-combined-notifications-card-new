@@ -20,7 +20,7 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
    ```
    https://github.com/Pjarbit/combined-notifications-card
    ```
-3. Choose **Lovelace** and click **Download**
+3. Choose **Lovelace** and click **Download.**
 4. Restart Home Assistant
 5. Go to **Settings > Dashboards > Resources** and verify this is added:
    ```
