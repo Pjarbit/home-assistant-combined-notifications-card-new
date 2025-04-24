@@ -2,7 +2,7 @@
 
 A custom Lovelace card for Home Assistant that works with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notifications) to display grouped entity notifications with dynamic styling.
 
-![Combined Notifications Card Demo](media/demo.gof.gif)
+![Combined Notifications Card Demo](media/demo.gif)
 
 ## 🚀 Features
 
@@ -24,13 +24,13 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 4. Restart Home Assistant
 5. Go to **Settings > Dashboards > Resources** and verify this is added:
    ```
-   url: /hacsfiles/combined-notifications-card/combined-notifications-card-new.js
+   url: /hacsfiles/home-assistant-combined-notifications-card/combined-notifications-card-new.js
    type: module
    ```
 
 ### Manual Installation
 
-1. Download the latest release from the [releases page](https://github.com/Pjarbit/combined-notifications-card/releases)
+1. Download the latest release from the [releases page](https://github.com/Pjarbit/combined-notifications-card-new/releases)
 2. Copy the `combined-notifications-card.js` file to your `www/` directory
 3. Add the resource to your dashboard:
    ```yaml
