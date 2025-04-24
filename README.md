@@ -18,7 +18,7 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 1. Go to **HACS > Frontend > Custom Repositories**
 2. Add this repo:
    ```
-   https://github.com/Pjarbit/combined-notifications-card
+   https://github.com/Pjarbit/combined-notifications-card-new
    ```
 3. Choose **Lovelace** and click **Download.**
 4. Restart Home Assistant
