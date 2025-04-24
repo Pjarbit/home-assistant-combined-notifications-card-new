@@ -1,7 +1,5 @@
 {
   "name": "Combined Notifications Card",
-  "filename": "combined-notifications-card.js",
   "type": "plugin",
-  "render_readme": true,
+  "file_name": "dist/combined-notifications-card.js"
 }
-
