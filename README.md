@@ -24,7 +24,7 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 4. Restart Home Assistant
 5. Go to **Settings > Dashboards > Resources** and verify this is added:
    ```
-   url: /hacsfiles/home-assistant-combined-notifications-card/combined-notifications-card-new.js
+   url: /hacsfiles/home-assistant-combined-notifications-card/combined-notifications-card.js
    type: module
    ```
 
