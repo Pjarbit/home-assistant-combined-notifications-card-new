@@ -36,7 +36,7 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 2. Copy the `combined-notifications-card.js` file to your `www/` directory
 3. Add the resource to your dashboard:
    ```yaml
-   url: /local/combined-notifications-card.js
+   url: /local/home-assistant-combined-notifications-card.js
    type: module
    ```
 4. Restart Home Assistant
