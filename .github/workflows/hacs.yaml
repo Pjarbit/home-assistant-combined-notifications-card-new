@@ -1,13 +1,13 @@
-name: HACS Validation
+name: HACS and Hassfest Validation
 
 on:
   push:
-  pull_request:
 
 jobs:
   validate:
-    name: Run HACS Action
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: hacs/action@main
+        with:
+          category: plugin
