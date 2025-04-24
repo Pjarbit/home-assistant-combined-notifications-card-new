@@ -54,7 +54,7 @@ That's it! The card automatically inherits all styling and behavior from the sen
 
 You can override any default display settings from the sensor using these attributes:
 
-| Attribute | Description | Examples |
+| Attribute | Description | Example |
 |-----------|-------------|----------|
 | `header_name` | Custom card title | `Car Alerts`, `Lighting`, `Home Security` |
 | `text_all_clear` | Message when all clear | `All OK`, `All Clear`, `Systems Normal` |
