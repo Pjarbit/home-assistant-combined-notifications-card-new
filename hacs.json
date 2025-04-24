@@ -3,7 +3,5 @@
   "filename": "combined-notifications-card.js",
   "type": "plugin",
   "render_readme": true,
-  "documentation": "https://github.com/Pjarbit/home-assistant-combined-notifications-card-new",
-  "keywords": ["notifications", "alert", "card", "dashboard"]
 }
 
