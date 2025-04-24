@@ -1,6 +1,6 @@
 {
-  "name": "Combined Notifications Card",
+  "name": "Home Assistant Combined Notifications Card New",
   "type": "plugin",
   "content_in_root": true,
-  "domain": "combined-notifications-card-new"
+  "domain": "home-assistant-combined-notifications-card-new"
 }
