@@ -1,6 +1,6 @@
 {
   "name": "Combined Notifications Card",
   "type": "plugin",
-  "file_name": "dist/combined-notifications-card.js"
-  "content_in_root:": false
+  "file_name": "dist/combined-notifications-card.js",
+  "content_in_root:": false,
 }
