@@ -1,4 +1,4 @@
-Here is the README content in a format you can easily copy and paste:
+Yes, you're right about both of these issues. For consistency, let me update the README with the correct filenames throughout. Here's the corrected version for both HACS and manual installation methods:
 
 # Combined Notifications Card
 
@@ -33,10 +33,10 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 ### Manual Installation
 
 1. Download the latest release from the [releases page](https://github.com/Pjarbit/home-assistant-combined-notifications-card-new/releases)
-2. Copy the `combined-notifications-card.js` file to your `www/` directory
+2. Copy the `home-assistant-combined-notifications-card-new.js` file to your `www/` directory
 3. Add the resource to your dashboard:
    ```yaml
-   url: /local/home-assistant-combined-notifications-card.js
+   url: /local/home-assistant-combined-notifications-card-new.js
    type: module
    ```
 4. Restart Home Assistant
