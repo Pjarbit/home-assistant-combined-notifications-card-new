@@ -1,5 +1,3 @@
-I'll update both README files to reflect the current HACS installation process and ensure the naming is consistent throughout. Here are the updated READMEs:
-
 # Combined Notifications Card
 
 A custom Lovelace card for Home Assistant that works with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notifications) to display grouped entity notifications with dynamic styling.
