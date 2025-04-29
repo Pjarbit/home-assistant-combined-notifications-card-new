@@ -38,12 +38,6 @@ class CombinedNotificationsCard extends HTMLElement {
         text-transform: uppercase;
       }
 
-      .card-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
       .card-label {
         font-size: 1rem;
         font-weight: 500;
@@ -56,7 +50,6 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const card = document.createElement('ha-card');
     card.className = 'card-container';
-
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(card);
     this.card = card;
@@ -121,8 +114,17 @@ class CombinedNotificationsCard extends HTMLElement {
     this.card.innerHTML = `
       <div class="card-inner">
         ${!config.hide_title ? `<div class="card-header" style="color: ${textColor};">${name}</div>` : ""}
-        <div class="card-icon">
-          <ha-icon icon="${icon}" style="color: ${iconColor}; width: ${iconSize}; height: ${iconSize}; display: block;"></ha-icon>
+        <div class="card-icon" style="width: ${iconSize}; height: ${iconSize};">
+          <ha-icon 
+            icon="${icon}" 
+            style="
+              color: ${iconColor}; 
+              width: 100%; 
+              height: 100%; 
+              font-size: ${iconSize}; 
+              display: block;
+            ">
+          </ha-icon>
         </div>
         <div class="card-label" style="color: ${textColor};">${label}</div>
       </div>
