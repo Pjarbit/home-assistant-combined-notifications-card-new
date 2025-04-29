@@ -9,18 +9,18 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       .card-container {
-        padding: 5px; /* Reduced padding to give more space */
+        padding: 5px;
         border-radius: 10px;
         background: inherit;
         color: white;
         text-align: center;
         box-sizing: border-box;
-        overflow: visible; /* Changed to visible to prevent clipping */
-        width: 315px !important; /* Hard-coded width */
-        min-width: 315px !important; /* Ensure width isn't shrunk */
-        max-width: 315px !important; /* Prevent stretching */
-        height: 150px !important; /* Increased height to fit content */
-        min-height: 150px !important; /* Ensure height isn't shrunk */
+        overflow: hidden;
+        width: 315px !important;
+        min-width: 315px !important;
+        max-width: 315px !important;
+        height: 200px !important;
+        min-height: 200px !important;
       }
 
       .card-inner {
@@ -28,42 +28,42 @@ class CombinedNotificationsCard extends HTMLElement {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 2px; /* Reduced gap to fit content better */
+        gap: 5px;
         height: 100%;
         width: 100%;
         box-sizing: border-box;
       }
 
       .card-header {
-        font-weight: bold;
-        font-size: 16px; /* Reduced font size to fit better */
+        font-weight: 500;
+        font-size: 16px;
         margin: 0;
         text-transform: uppercase;
-        line-height: 1.2; /* Prevent excessive vertical space */
+        line-height: 1.2;
       }
 
       .card-label {
-        font-size: 14px; /* Reduced font size to fit better */
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: 400;
         margin: 0;
         white-space: normal;
         display: block;
         max-width: 100%;
-        line-height: 1.2; /* Prevent excessive vertical space */
+        line-height: 1.2;
       }
       
       .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 80px !important; /* Hard-coded icon size */
-        height: 80px !important; /* Hard-coded icon size */
-        margin-bottom: 2px; /* Small margin to space it from header */
+        width: 150px !important;
+        height: 150px !important;
+        margin-bottom: 5px;
       }
 
       ha-icon {
-        width: 80px !important; /* Hard-coded icon size */
-        height: 80px !important; /* Hard-coded icon size */
+        width: 150px !important;
+        height: 150px !important;
         display: block;
       }
     `;
@@ -133,23 +133,23 @@ class CombinedNotificationsCard extends HTMLElement {
     }
 
     const iconName = isClear
-      ? (config.icon_all_clear || attrs.icon_clear || "mdi:hand-okay") // Prioritize card config
-      : (config.icon_alert || attrs.icon_alert || "mdi:alert-circle"); // Prioritize card config
+      ? (config.icon_all_clear || attrs.icon_clear || "mdi:hand-okay")
+      : (config.icon_alert || attrs.icon_alert || "mdi:alert-circle");
 
     const bgColor = isClear
-      ? this._resolveColor(config.background_color_all_clear || attrs.color_clear || "rgba(67, 73, 82, 1)") // Prioritize card config
-      : this._resolveColor(config.background_color_alert || attrs.color_alert || "rgba(190, 11, 11, 0.9)"); // Prioritize card config
+      ? this._resolveColor(config.background_color_all_clear || attrs.color_clear || "rgba(67, 73, 82, 1)")
+      : this._resolveColor(config.background_color_alert || attrs.color_alert || "rgba(190, 11, 11, 0.9)");
 
     const iconColor = isClear
-      ? this._resolveColor(config.icon_color_all_clear || attrs.icon_color_clear || "white") // Prioritize card config
-      : this._resolveColor(config.icon_color_alert || attrs.icon_color_alert || "white"); // Prioritize card config
+      ? this._resolveColor(config.icon_color_all_clear || attrs.icon_color_clear || "white")
+      : this._resolveColor(config.icon_color_alert || attrs.icon_color_alert || "white");
 
     const textColor = isClear
-      ? this._resolveColor(config.text_color_all_clear || attrs.text_color_clear || "white") // Prioritize card config
-      : this._resolveColor(config.text_color_alert || attrs.text_color_alert || "white"); // Prioritize card config
+      ? this._resolveColor(config.text_color_all_clear || attrs.text_color_clear || "white")
+      : this._resolveColor(config.text_color_alert || attrs.text_color_alert || "white");
 
     const labelText = isClear ? clearText : stateObj.state;
-    const name = attrs.friendly_name || "NOTIFICATIONS"; // Use sensor friendly_name or default
+    const name = attrs.friendly_name || "NOTIFICATIONS";
 
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
