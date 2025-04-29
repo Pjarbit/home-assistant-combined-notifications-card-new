@@ -1,15 +1,15 @@
-# Combined Notifications Card
+# Combined Notifications Integration
 
-A custom Lovelace card for Home Assistant that works with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notifications) to display grouped entity notifications with dynamic styling.
+A custom integration for Home Assistant that creates sensor entities which group together multiple notification conditions with customizable styling and alert states.
 
-![Combined Notifications Card Demo](media/demo.gif)
+![Combined Notifications Demo](media/demo.gif)
 
 ## 🚀 Features
 
-- **Auto-styling**: Inherits colors, icons, and text from the integration
-- **Dynamic states**: Shows alert or all-clear states based on entity conditions
-- **Fully customizable**: Override any visual element directly in the card config
-- **Compact & Clear**: Shows only what you need to know at a glance
+- **Entity Grouping**: Monitor multiple entities with a single notification sensor
+- **Condition-based Alerts**: Define custom conditions with operators (equals, not equals, greater than, less than)
+- **Customizable Appearance**: Set colors, icons, and other visual elements
+- **Flexible Display Options**: Works with multiple dashboard card types
 
 ## 📦 Installation
 
@@ -20,75 +20,62 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 3. Select "Custom repositories"
 4. Add this repo:
    ```
-   https://github.com/Pjarbit/home-assistant-combined-notifications-card-new
+   https://github.com/Pjarbit/home-assistant-combined-notifications
    ```
-5. Select "Dashboard" as the repository type
+5. Select "Integration" as the repository type
 6. Click "ADD"
-7. Search for "Combined Notifications Card" in HACS
+7. Search for "Combined Notifications" in HACS
 8. Click Install
 9. Restart Home Assistant
+10. Go to **Settings > Devices & Services > Add Integration** and search for "Combined Notifications"
 
 ### Manual Installation
 
-1. Download the latest release from the [releases page](https://github.com/Pjarbit/home-assistant-combined-notifications-card-new/releases)
-2. Copy the `combined-notifications-card.js` file to your `www/` directory
-3. Add the resource to your dashboard:
-   ```yaml
-   url: /local/combined-notifications-card.js
-   type: module
-   ```
+1. Download the latest release from the [releases page](https://github.com/Pjarbit/home-assistant-combined-notifications/releases)
+2. Create a folder named `combined_notifications` in your `config/custom_components/` directory
+3. Extract the contents of the release into this folder
 4. Restart Home Assistant
+5. Go to **Settings > Devices & Services > Add Integration** and search for "Combined Notifications"
 
-## ⚙️ Basic Usage
+## ⚙️ Configuration
 
-Add the card to your dashboard with this minimal configuration:
+The integration is configured via a user-friendly UI:
+
+1. After adding the integration, provide a name for your notification group
+2. Configure appearance settings (colors, icons)
+3. Add condition entities to monitor
+4. For each entity, specify:
+   - The entity ID to monitor
+   - The condition operator (equals, not equals, greater than, less than)
+   - The trigger value
+   - A friendly name (optional)
+
+## 🔄 Display Options
+
+This integration creates notification sensor entities that can be displayed in multiple ways on your dashboard. Choose the option that best fits your needs:
+
+### Option 1: Combined Notifications Card (Recommended)
+
+For the best experience, use our dedicated [Combined Notifications Card](https://github.com/Pjarbit/home-assistant-combined-notifications-card-new):
 
 ```yaml
 type: custom:combined-notifications-card
-entity: sensor.car_alert_notifications
-```
-
-That's it! The card automatically inherits all styling and behavior from the sensor entity created by the Combined Notifications integration.
-
-## 🎨 Customization Options
-
-You can override any default display settings from the sensor using these attributes:
-
-| Attribute | Description | Examples |
-|-----------|-------------|----------|
-| `header_name` | Custom card title | `Car Alerts`, `Lighting`, `Home Security` |
-| `text_all_clear` | Message when all clear | `All OK`, `All Clear`, `Systems Normal` |
-| `background_color_all_clear` | Background for normal state | `green`, `blue`, `teal` |
-| `background_color_alert` | Background for alert state | `red`, `orange`, `yellow` |
-| `icon_all_clear` | Icon for normal state | `mdi:hand-okay`, `mdi:check-circle` |
-| `icon_alert` | Icon for alert state | `mdi:alert-circle`, `mdi:alert` |
-| `icon_color_all_clear` | Icon color for normal state | `white`, `gray`, `var(--primary-color)` |
-| `icon_color_alert` | Icon color for alert state | `yellow`, `red`, `white` |
-| `show_details` | Show entity details | `true`, `false` |
-| `hide_when_clear` | Hide card when all clear | `true`, `false` |
-
-## 📋 Example Configurations
-
-### Standard Configuration
-```yaml
-type: custom:combined-notifications-card
-entity: sensor.car_alert_notifications
-header_name: Car Alerts
+entity: sensor.your_notification_group
+header_name: Important Alerts
 text_all_clear: All Systems Normal
 background_color_all_clear: green
 background_color_alert: red
 icon_all_clear: mdi:check-circle
 icon_alert: mdi:alert-circle
-show_details: true
-hide_when_clear: false
 ```
 
-### Alternative Using button-card
-If you prefer using button-card, you can achieve similar functionality with:
+### Option 2: Using button-card
+
+If you already use button-card in your setup, you can achieve similar functionality:
 
 ```yaml
 type: custom:button-card
-entity: sensor.unmet_conditions_list
+entity: sensor.your_notification_group
 name: NOTIFICATIONS
 show_name: true
 show_icon: true
@@ -103,20 +90,12 @@ styles:
     - color: >
         [[[ if (entity.state === "") { return "rgb(47, 207, 118)"; } else {
         return "rgb(255, 255, 255)"; } ]]]
-    - font-size: 20px
-    - white-space: normal
   name:
     - font-weight: bold
-  label:
-    - white-space: normal
-    - display: block
-    - max-width: 100%
   icon:
     - color: >
         [[[ if (entity.state === "") { return "rgb(47, 207, 118)"; } else {
         return "rgb(255, 255, 255)"; } ]]]
-    - width: 80px
-    - height: 80px
 icon: >
   [[[ if (entity.state !== "") { return "mdi:alert-circle"; } else { return
   "mdi:hand-okay"; } ]]]
@@ -124,38 +103,33 @@ show_label: true
 label: >
   [[[ if (entity.state !== "") { return entity.state; } else { return "All
   CLEAR"; } ]]]
-tap_action:
-  action: none
-hold_action:
-  action: none
 ```
 
-This button-card example requires you to have [button-card](https://github.com/custom-cards/button-card) installed and provides similar functionality with fully customizable styles.
+### Option 3: Standard Entity Card
 
-## 🧠 How It Works
+For a simple approach, you can use the built-in entity card:
 
-### Behavior
-When any condition is triggered:
-- Card background changes to your alert color
-- Displays your alert icon
-- Shows a list of unmet conditions
+```yaml
+type: entities
+entities:
+  - entity: sensor.your_notification_group
+    name: System Notifications
+```
 
-When all conditions are normal:
-- Card switches to your all-clear color
-- Displays your custom "All Clear" message
-- Shows your all-clear icon
+## 📋 Example Use Cases
+
+- **Home Security**: Monitor door/window sensors, motion detectors, and alarm states
+- **Device Status**: Track battery levels, connectivity issues, and offline devices
+- **System Alerts**: Monitor disk space, CPU usage, or temperature sensors
+- **Home Maintenance**: Track filter replacements, water leaks, or other maintenance needs
 
 ## ⚠️ Troubleshooting
 
 **Common Issues:**
-- If the card isn't appearing, check that you've added the JS file to your resources
-- Verify that the integration is properly set up and creating sensor entities
-- Ensure the entity name in your card configuration matches exactly with the sensor created by the integration
-- Check your browser console for any JavaScript errors
-
-## 📚 Related
-
-This card is designed to work with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notifications). Please install the integration first to create notification group sensors.
+- If entities aren't updating properly, check that they are providing state changes
+- Verify that condition operators and trigger values match your expectations
+- For numeric comparisons, ensure values are properly formatted
+- Restart Home Assistant after making significant changes
 
 ## 🤝 Contributing
 
@@ -166,5 +140,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
+
+Made with ❤️ for the Home Assistant Community
 
 Made with ❤️ for the Home Assistant Community
