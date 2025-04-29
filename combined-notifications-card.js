@@ -15,8 +15,10 @@ class CombinedNotificationsCard extends HTMLElement {
         color: white;
         text-align: center;
         box-sizing: border-box;
-        width: 100%;
-        overflow: visible !important; /* Ensure content doesn't get clipped */
+        overflow: hidden;
+        min-height: 100px; /* Ensure a minimum height */
+        width: auto; /* Allow width to be set explicitly */
+        height: auto; /* Allow height to be set explicitly */
       }
 
       .card-inner {
@@ -25,11 +27,9 @@ class CombinedNotificationsCard extends HTMLElement {
         align-items: center;
         justify-content: center;
         gap: 5px;
+        height: 100%;
         width: 100%;
         box-sizing: border-box;
-        height: auto !important;
-        min-height: 0;
-        overflow: visible !important;
       }
 
       .card-header {
@@ -37,7 +37,6 @@ class CombinedNotificationsCard extends HTMLElement {
         font-size: 20px;
         margin: 0;
         text-transform: uppercase;
-        overflow-wrap: break-word;
       }
 
       .card-label {
@@ -47,14 +46,14 @@ class CombinedNotificationsCard extends HTMLElement {
         white-space: normal;
         display: block;
         max-width: 100%;
-        overflow-wrap: break-word;
       }
-
+      
       .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: visible !important;
+        width: 80px;
+        height: 80px;
       }
 
       ha-icon {
@@ -69,11 +68,13 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
-
+    
     const iconWrapper = document.createElement('div');
     iconWrapper.className = 'icon-wrapper';
 
     const icon = document.createElement('ha-icon');
+    icon.style.width = '100%';
+    icon.style.height = '100%';
 
     const header = document.createElement('div');
     header.className = 'card-header';
@@ -102,6 +103,10 @@ class CombinedNotificationsCard extends HTMLElement {
 
   set hass(hass) {
     if (!hass || !this.config) return;
+
+    // Debug config values
+    console.log('Config values:', this.config);
+    console.log('HASS state:', hass.states);
 
     const config = this.config;
     const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
@@ -178,7 +183,7 @@ class CombinedNotificationsCard extends HTMLElement {
     if (!color) return "inherit";
     if (color === "Use YOUR Current Theme Color") return "var(--primary-color)";
     if (color === "Transparent Background") return "transparent";
-    if (color === "Red") return "rgba(190, 11, 11, 0.9)"; // Force custom red
+    if (color === "Red") return "rgba(190, 11, 11, 0.9)";
     return color;
   }
 
