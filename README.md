@@ -45,7 +45,7 @@ Add the card to your dashboard with this minimal configuration:
 
 ```yaml
 type: custom:combined-notifications-card
-entity: sensor.car_alert_notifications
+entity: sensor.YOUR_SENSOR_NAME
 ```
 
 That's it! The card automatically inherits all styling and behavior from the sensor entity created by the Combined Notifications integration.
