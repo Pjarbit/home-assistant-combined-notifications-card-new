@@ -105,6 +105,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const cardHeight = attrs.card_height || config.card_height || "auto";
     const cardWidth = attrs.card_width || config.card_width || "100%";
     const iconSize = attrs.icon_size || config.icon_size || "80px";
+    const iconScale = attrs.icon_scale || config.icon_scale || 1.75;
 
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
@@ -117,9 +118,9 @@ class CombinedNotificationsCard extends HTMLElement {
           icon="${icon}"
           style="
             color: ${iconColor};
-            width: calc(${iconSize} * 1.4);
-            height: calc(${iconSize} * 1.4);
-            font-size: calc(${iconSize} * 1.4);
+            width: calc(${iconSize} * ${iconScale});
+            height: calc(${iconSize} * ${iconScale});
+            font-size: calc(${iconSize} * ${iconScale});
             display: block;
           ">
         </ha-icon>
@@ -127,7 +128,7 @@ class CombinedNotificationsCard extends HTMLElement {
         <div class="card-label" style="color: ${textColor};">${label || "&nbsp;"}</div>
       </div>
     `;
-  }
+
 
   _resolveColor(color) {
     if (!color) return "inherit";
@@ -169,7 +170,8 @@ class CombinedNotificationsCard extends HTMLElement {
       card_width: "100%",
       icon_size: "80px",
       hide_when_clear: false,
-      hide_title: false
+      hide_title: false,
+      icon_scale: 1.75,
     };
   }
 }
