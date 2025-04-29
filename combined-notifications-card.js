@@ -59,7 +59,7 @@ class CombinedNotificationsCard extends HTMLElement {
     if (!hass || !this.config) return;
 
     const config = this.config;
-    const entityId = config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
+    const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
     if (!stateObj) {
       this.card.innerHTML = `
@@ -73,7 +73,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const clearText = attrs.text_all_clear || config.text_all_clear || "ALL CLEAR";
     const isClear = stateObj.state === clearText;
 
-    if (config.hide_when_clear === true && isClear) {
+    if (config.hide_when_clear && isClear) {
       this.card.style.display = 'none';
       return;
     } else {
@@ -128,7 +128,7 @@ class CombinedNotificationsCard extends HTMLElement {
         <div class="card-label" style="color: ${textColor};">${label || "&nbsp;"}</div>
       </div>
     `;
-
+  }
 
   _resolveColor(color) {
     if (!color) return "inherit";
@@ -169,9 +169,9 @@ class CombinedNotificationsCard extends HTMLElement {
       card_height: "100px",
       card_width: "100%",
       icon_size: "80px",
-      hide_when_clear: false,
-      hide_title: false,
       icon_scale: 1.75,
+      hide_when_clear: false,
+      hide_title: false
     };
   }
 }
