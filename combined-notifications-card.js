@@ -16,9 +16,9 @@ class CombinedNotificationsCard extends HTMLElement {
         text-align: center;
         box-sizing: border-box;
         overflow: hidden;
-        min-height: 100px; /* Ensure a minimum height */
-        width: auto; /* Allow width to be set explicitly */
-        height: auto; /* Allow height to be set explicitly */
+        min-height: 100px;
+        width: auto !important; /* Force width */
+        height: auto !important; /* Force height */
       }
 
       .card-inner {
@@ -52,14 +52,21 @@ class CombinedNotificationsCard extends HTMLElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 80px;
-        height: 80px;
+        width: 80px !important; /* Force width */
+        height: 80px !important; /* Force height */
       }
 
       ha-icon {
-        width: 100%;
-        height: 100%;
+        width: 100% !important; /* Force width */
+        height: 100% !important; /* Force height */
         display: block;
+      }
+
+      .debug-info {
+        font-size: 12px;
+        color: white;
+        margin-top: 5px;
+        opacity: 0.7;
       }
     `;
 
@@ -82,10 +89,14 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = document.createElement('div');
     label.className = 'card-label';
 
+    const debugInfo = document.createElement('div');
+    debugInfo.className = 'debug-info';
+
     iconWrapper.appendChild(icon);
     cardInner.appendChild(iconWrapper);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
+    cardInner.appendChild(debugInfo);
     card.appendChild(cardInner);
 
     this.cardElements = {
@@ -93,6 +104,7 @@ class CombinedNotificationsCard extends HTMLElement {
       iconWrapper,
       header,
       label,
+      debugInfo,
       cardInner
     };
 
@@ -104,19 +116,16 @@ class CombinedNotificationsCard extends HTMLElement {
   set hass(hass) {
     if (!hass || !this.config) return;
 
-    // Debug config values
-    console.log('Config values:', this.config);
-    console.log('HASS state:', hass.states);
-
     const config = this.config;
     const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
-    const { icon, iconWrapper, header, label } = this.cardElements;
+    const { icon, iconWrapper, header, label, debugInfo } = this.cardElements;
 
     if (!stateObj) {
       iconWrapper.style.display = 'none';
       header.textContent = "Entity not found";
       label.textContent = entityId;
+      debugInfo.textContent = 'No state object';
       return;
     }
 
@@ -159,9 +168,13 @@ class CombinedNotificationsCard extends HTMLElement {
     const cardWidth = attrs.card_width || config.card_width || "100%";
     const iconSize = attrs.icon_size || config.icon_size || "80px";
 
-    iconWrapper.style.width = iconSize;
-    iconWrapper.style.height = iconSize;
-    icon.style.setProperty('--mdc-icon-size', iconSize);
+    // Display debug info on the card
+    debugInfo.textContent = `Debug: icon_size=${iconSize}, card_height=${cardHeight}, card_width=${cardWidth}`;
+
+    // Apply sizes with !important to override Lovelace constraints
+    iconWrapper.style.width = iconSize + ' !important';
+    iconWrapper.style.height = iconSize + ' !important';
+    icon.style.setProperty('--mdc-icon-size', iconSize, 'important');
 
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
@@ -175,8 +188,8 @@ class CombinedNotificationsCard extends HTMLElement {
 
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
-    this.card.style.height = cardHeight;
-    this.card.style.width = cardWidth;
+    this.card.style.height = cardHeight + ' !important';
+    this.card.style.width = cardWidth + ' !important';
   }
 
   _resolveColor(color) {
