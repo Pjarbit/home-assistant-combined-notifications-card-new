@@ -16,28 +16,26 @@ class CombinedNotificationsCard extends HTMLElement {
         text-align: center;
         box-sizing: border-box;
         overflow: hidden;
-        height: 100%;
         width: 100%;
       }
-  
+
       .card-inner {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 5px;
-        height: 100%;
         width: 100%;
         box-sizing: border-box;
       }
-  
+
       .card-header {
         font-weight: bold;
         font-size: 20px;
         margin: 0;
         text-transform: uppercase;
       }
-  
+
       .card-label {
         font-size: 18px;
         font-weight: 500;
@@ -46,51 +44,43 @@ class CombinedNotificationsCard extends HTMLElement {
         display: block;
         max-width: 100%;
       }
-      
+
       .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 80px;
-        height: 80px;
       }
-  
+
       ha-icon {
-        /* Ensure the icon scales to fill the wrapper */
         width: 100%;
         height: 100%;
         display: block;
-        --mdc-icon-size: 100%; /* Home Assistant specific property to scale icon */
       }
     `;
-  
+
     const card = document.createElement('ha-card');
     card.className = 'card-container';
-  
+
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
-    
-    // Create a wrapper for the icon
+
     const iconWrapper = document.createElement('div');
     iconWrapper.className = 'icon-wrapper';
-  
+
     const icon = document.createElement('ha-icon');
-    // Remove inline font-size and let CSS handle sizing
-    icon.style.width = '100%';
-    icon.style.height = '100%';
-  
+
     const header = document.createElement('div');
     header.className = 'card-header';
-  
+
     const label = document.createElement('div');
     label.className = 'card-label';
-  
+
     iconWrapper.appendChild(icon);
     cardInner.appendChild(iconWrapper);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
     card.appendChild(cardInner);
-  
+
     this.cardElements = {
       icon,
       iconWrapper,
@@ -98,11 +88,12 @@ class CombinedNotificationsCard extends HTMLElement {
       label,
       cardInner
     };
-  
+
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(card);
     this.card = card;
   }
+
   set hass(hass) {
     if (!hass || !this.config) return;
 
@@ -156,11 +147,11 @@ class CombinedNotificationsCard extends HTMLElement {
     const cardHeight = attrs.card_height || config.card_height || "auto";
     const cardWidth = attrs.card_width || config.card_width || "100%";
     const iconSize = attrs.icon_size || config.icon_size || "80px";
-    
-    // Set the size on the wrapper rather than the icon itself
+
     iconWrapper.style.width = iconSize;
     iconWrapper.style.height = iconSize;
-    
+    icon.style.setProperty('--mdc-icon-size', iconSize);
+
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
 
