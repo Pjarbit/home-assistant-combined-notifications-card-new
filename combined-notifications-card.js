@@ -113,8 +113,8 @@ class CombinedNotificationsCard extends HTMLElement {
 
     this.card.innerHTML = `
       <div class="card-inner">
-        <ha-icon 
-          icon="${icon}" 
+        <ha-icon
+          icon="${icon}"
           style="
             color: ${iconColor};
             width: calc(${iconSize} * 1.4);
@@ -127,6 +127,7 @@ class CombinedNotificationsCard extends HTMLElement {
         <div class="card-label" style="color: ${textColor};">${label || "&nbsp;"}</div>
       </div>
     `;
+  }
 
   _resolveColor(color) {
     if (!color) return "inherit";
