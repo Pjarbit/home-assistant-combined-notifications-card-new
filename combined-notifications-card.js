@@ -11,13 +11,24 @@ class CombinedNotificationsCard extends HTMLElement {
       .card-container {
         padding: 16px;
         border-radius: 10px;
+        background: inherit;
+        color: white;
+        text-align: center;
+        box-sizing: border-box;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+      }
+
+      .card-inner {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 12px;
-        color: white;
-        text-align: center;
+        gap: 10px;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .card-header {
@@ -38,6 +49,8 @@ class CombinedNotificationsCard extends HTMLElement {
         font-weight: 500;
         margin: 0;
         white-space: normal;
+        display: block;
+        max-width: 100%;
       }
     `;
 
@@ -106,11 +119,13 @@ class CombinedNotificationsCard extends HTMLElement {
     this.card.style.width = cardWidth;
 
     this.card.innerHTML = `
-      ${!config.hide_title ? `<div class="card-header" style="color: ${textColor};">${name}</div>` : ""}
-      <div class="card-icon">
-        <ha-icon icon="${icon}" style="color: ${iconColor}; width: ${iconSize}; height: ${iconSize};"></ha-icon>
+      <div class="card-inner">
+        ${!config.hide_title ? `<div class="card-header" style="color: ${textColor};">${name}</div>` : ""}
+        <div class="card-icon">
+          <ha-icon icon="${icon}" style="color: ${iconColor}; width: ${iconSize}; height: ${iconSize}; display: block;"></ha-icon>
+        </div>
+        <div class="card-label" style="color: ${textColor};">${label}</div>
       </div>
-      <div class="card-label" style="color: ${textColor};">${label}</div>
     `;
   }
 
