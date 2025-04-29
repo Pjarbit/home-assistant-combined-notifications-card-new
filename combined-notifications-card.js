@@ -30,7 +30,6 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
         box-sizing: border-box;
-        min-height: 150px;
       }
 
       .card-header {
@@ -132,7 +131,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    const cardHeight = attrs.card_height || config.card_height || "auto";
+    const cardHeight = attrs.card_height || config.card_height || "100px";
     const cardWidth = attrs.card_width || config.card_width || "100%";
     const iconSize = attrs.icon_size || config.icon_size || "80px";
 
@@ -152,7 +151,7 @@ class CombinedNotificationsCard extends HTMLElement {
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
     this.card.style.display = (config.hide_when_clear && isClear) ? 'none' : '';
-    this.card.style.height = cardHeight;
+    this.card.style.setProperty('height', cardHeight, 'important');
     this.card.style.width = cardWidth;
   }
 
