@@ -15,18 +15,20 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 
 ### HACS Installation (Recommended)
 
-1. Go to the HACS dashboard in Home Assistant
+1. Go to HACS in Home Assistant
 2. Click the three dots menu in the upper right corner
 3. Select "Custom repositories"
-4. Add this repo URL:
+4. Add this repo:
    ```
    https://github.com/Pjarbit/home-assistant-combined-notifications-card-new
    ```
 5. Select "Dashboard" as the repository type
 6. Click "ADD"
-7. Search for "Combined Notifications Card" in the Dashboard section
+7. Search for "Combined Notifications Card" in HACS
 8. Click Install
 9. Restart Home Assistant
+
+This is more accurate for the current HACS interface where all repositories are displayed together rather than in separate sections. Thank you for pointing out this inaccuracy!
 
 ### Manual Installation
 
