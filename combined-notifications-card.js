@@ -38,10 +38,13 @@ class CombinedNotificationsCard extends HTMLElement {
         text-transform: uppercase;
       }
 
-      .ha-icon {
-        width: var(--icon-size, 80px) !important;
-        height: var(--icon-size, 80px) !important;
-        font-size: var(--icon-size, 80px) !important;
+      .card-label {
+        font-size: 18px;
+        font-weight: 500;
+        margin: 0;
+        white-space: normal;
+        display: block;
+        max-width: 100%;
       }
     `;
 
@@ -51,18 +54,8 @@ class CombinedNotificationsCard extends HTMLElement {
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
 
-    const iconContainer = document.createElement('div');
-    iconContainer.style.display = 'flex';
-    iconContainer.style.justifyContent = 'center';
-    iconContainer.style.alignItems = 'center';
-    iconContainer.style.width = '100%';
-    
     const icon = document.createElement('ha-icon');
-    // Force icon to be block level and apply class for CSS targeting
     icon.style.display = 'block';
-    icon.className = 'ha-icon';
-    
-    iconContainer.appendChild(icon);
 
     const header = document.createElement('div');
     header.className = 'card-header';
@@ -70,14 +63,13 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = document.createElement('div');
     label.className = 'card-label';
 
-    cardInner.appendChild(iconContainer);
+    cardInner.appendChild(icon);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
     card.appendChild(cardInner);
 
     this.cardElements = {
       icon,
-      iconContainer,
       header,
       label,
       cardInner
@@ -138,19 +130,13 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    // Fixed icon size to match button-card example
-    const iconSize = config.icon_size || "80px";
+    const cardHeight = attrs.card_height || config.card_height || "auto";
+    const cardWidth = attrs.card_width || config.card_width || "100%";
+    const iconSize = attrs.icon_size || config.icon_size || "80px";
 
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
-    // Set explicit large icon size
-    icon.style.width = iconSize;
-    icon.style.height = iconSize;
-    icon.style.fontSize = iconSize;
-    
-    // Ensure the icon is properly sized and visible
-    icon.style.minWidth = iconSize;
-    icon.style.minHeight = iconSize;
+    icon.style.fontSize = iconSize; // Use fontSize to control the icon size
 
     header.style.color = textColor;
     header.textContent = name;
@@ -161,8 +147,8 @@ class CombinedNotificationsCard extends HTMLElement {
 
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
-    this.card.style.height = config.card_height || "auto";
-    this.card.style.width = config.card_width || "100%";
+    this.card.style.height = cardHeight;
+    this.card.style.width = cardWidth;
   }
 
   _resolveColor(color) {
@@ -204,7 +190,7 @@ class CombinedNotificationsCard extends HTMLElement {
       text_color_alert: "",
       card_height: "auto",
       card_width: "100%",
-      icon_size: "80px", // Default large size to match the button-card example
+      icon_size: "80px",
       hide_when_clear: false,
       hide_title: false
     };
