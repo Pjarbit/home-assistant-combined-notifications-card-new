@@ -19,7 +19,7 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
       }
-
+  
       .card-inner {
         display: flex;
         flex-direction: column;
@@ -30,14 +30,14 @@ class CombinedNotificationsCard extends HTMLElement {
         width: 100%;
         box-sizing: border-box;
       }
-
+  
       .card-header {
         font-weight: bold;
         font-size: 20px;
         margin: 0;
         text-transform: uppercase;
       }
-
+  
       .card-label {
         font-size: 18px;
         font-weight: 500;
@@ -54,38 +54,43 @@ class CombinedNotificationsCard extends HTMLElement {
         width: 80px;
         height: 80px;
       }
+  
+      ha-icon {
+        /* Ensure the icon scales to fill the wrapper */
+        width: 100%;
+        height: 100%;
+        display: block;
+        --mdc-icon-size: 100%; /* Home Assistant specific property to scale icon */
+      }
     `;
-
+  
     const card = document.createElement('ha-card');
     card.className = 'card-container';
-
+  
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
     
     // Create a wrapper for the icon
     const iconWrapper = document.createElement('div');
     iconWrapper.className = 'icon-wrapper';
-    iconWrapper.style.display = 'flex';
-    iconWrapper.style.alignItems = 'center';
-    iconWrapper.style.justifyContent = 'center';
-
+  
     const icon = document.createElement('ha-icon');
+    // Remove inline font-size and let CSS handle sizing
     icon.style.width = '100%';
     icon.style.height = '100%';
-    icon.style.fontSize = '1em';
-
+  
     const header = document.createElement('div');
     header.className = 'card-header';
-
+  
     const label = document.createElement('div');
     label.className = 'card-label';
-
+  
     iconWrapper.appendChild(icon);
     cardInner.appendChild(iconWrapper);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
     card.appendChild(cardInner);
-
+  
     this.cardElements = {
       icon,
       iconWrapper,
@@ -93,12 +98,11 @@ class CombinedNotificationsCard extends HTMLElement {
       label,
       cardInner
     };
-
+  
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(card);
     this.card = card;
   }
-
   set hass(hass) {
     if (!hass || !this.config) return;
 
