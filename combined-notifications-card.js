@@ -9,15 +9,18 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       .card-container {
-        padding: 10px;
+        padding: 5px; /* Reduced padding to give more space */
         border-radius: 10px;
         background: inherit;
         color: white;
         text-align: center;
         box-sizing: border-box;
-        overflow: hidden;
+        overflow: visible; /* Changed to visible to prevent clipping */
         width: 315px !important; /* Hard-coded width */
-        height: 100px !important; /* Hard-coded height */
+        min-width: 315px !important; /* Ensure width isn't shrunk */
+        max-width: 315px !important; /* Prevent stretching */
+        height: 150px !important; /* Increased height to fit content */
+        min-height: 150px !important; /* Ensure height isn't shrunk */
       }
 
       .card-inner {
@@ -25,7 +28,7 @@ class CombinedNotificationsCard extends HTMLElement {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 2px; /* Reduced gap to fit content better */
         height: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -33,18 +36,20 @@ class CombinedNotificationsCard extends HTMLElement {
 
       .card-header {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 16px; /* Reduced font size to fit better */
         margin: 0;
         text-transform: uppercase;
+        line-height: 1.2; /* Prevent excessive vertical space */
       }
 
       .card-label {
-        font-size: 18px;
+        font-size: 14px; /* Reduced font size to fit better */
         font-weight: 500;
         margin: 0;
         white-space: normal;
         display: block;
         max-width: 100%;
+        line-height: 1.2; /* Prevent excessive vertical space */
       }
       
       .icon-wrapper {
@@ -53,6 +58,7 @@ class CombinedNotificationsCard extends HTMLElement {
         justify-content: center;
         width: 80px !important; /* Hard-coded icon size */
         height: 80px !important; /* Hard-coded icon size */
+        margin-bottom: 2px; /* Small margin to space it from header */
       }
 
       ha-icon {
