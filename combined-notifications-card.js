@@ -46,6 +46,14 @@ class CombinedNotificationsCard extends HTMLElement {
         display: block;
         max-width: 100%;
       }
+      
+      .icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+      }
     `;
 
     const card = document.createElement('ha-card');
@@ -53,9 +61,18 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
+    
+    // Create a wrapper for the icon
+    const iconWrapper = document.createElement('div');
+    iconWrapper.className = 'icon-wrapper';
+    iconWrapper.style.display = 'flex';
+    iconWrapper.style.alignItems = 'center';
+    iconWrapper.style.justifyContent = 'center';
 
     const icon = document.createElement('ha-icon');
-    icon.style.display = 'block';
+    icon.style.width = '100%';
+    icon.style.height = '100%';
+    icon.style.fontSize = '1em';
 
     const header = document.createElement('div');
     header.className = 'card-header';
@@ -63,13 +80,15 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = document.createElement('div');
     label.className = 'card-label';
 
-    cardInner.appendChild(icon);
+    iconWrapper.appendChild(icon);
+    cardInner.appendChild(iconWrapper);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
     card.appendChild(cardInner);
 
     this.cardElements = {
       icon,
+      iconWrapper,
       header,
       label,
       cardInner
@@ -86,16 +105,16 @@ class CombinedNotificationsCard extends HTMLElement {
     const config = this.config;
     const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
-    const { icon, header, label } = this.cardElements;
+    const { icon, iconWrapper, header, label } = this.cardElements;
 
     if (!stateObj) {
-      icon.style.display = 'none';
+      iconWrapper.style.display = 'none';
       header.textContent = "Entity not found";
       label.textContent = entityId;
       return;
     }
 
-    icon.style.display = 'block';
+    iconWrapper.style.display = 'flex';
 
     const attrs = stateObj.attributes || {};
     const clearText = attrs.text_all_clear || config.text_all_clear || "ALL CLEAR";
@@ -133,10 +152,13 @@ class CombinedNotificationsCard extends HTMLElement {
     const cardHeight = attrs.card_height || config.card_height || "auto";
     const cardWidth = attrs.card_width || config.card_width || "100%";
     const iconSize = attrs.icon_size || config.icon_size || "80px";
-
+    
+    // Set the size on the wrapper rather than the icon itself
+    iconWrapper.style.width = iconSize;
+    iconWrapper.style.height = iconSize;
+    
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
-    icon.style.fontSize = iconSize; // Use fontSize to control the icon size
 
     header.style.color = textColor;
     header.textContent = name;
