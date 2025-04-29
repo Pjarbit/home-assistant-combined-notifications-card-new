@@ -28,8 +28,6 @@ A custom Lovelace card for Home Assistant that works with the [Combined Notifica
 8. Click Install
 9. Restart Home Assistant
 
-This is more accurate for the current HACS interface where all repositories are displayed together rather than in separate sections. Thank you for pointing out this inaccuracy!
-
 ### Manual Installation
 
 1. Download the latest release from the [releases page](https://github.com/Pjarbit/home-assistant-combined-notifications-card-new/releases)
@@ -69,8 +67,9 @@ You can override any default display settings from the sensor using these attrib
 | `show_details` | Show entity details | `true`, `false` |
 | `hide_when_clear` | Hide card when all clear | `true`, `false` |
 
-## 📋 Example Configuration
+## 📋 Example Configurations
 
+### Standard Configuration
 ```yaml
 type: custom:combined-notifications-card
 entity: sensor.car_alert_notifications
@@ -83,6 +82,55 @@ icon_alert: mdi:alert-circle
 show_details: true
 hide_when_clear: false
 ```
+
+### Alternative Using button-card
+If you prefer using button-card, you can achieve similar functionality with:
+
+```yaml
+type: custom:button-card
+entity: sensor.unmet_conditions_list
+name: NOTIFICATIONS
+show_name: true
+show_icon: true
+show_state: false
+styles:
+  card:
+    - background-color: >
+        [[[ if (entity.state !== "") { return "rgba(255, 0, 0, 0.7)"; } else {
+        return "rgba(67, 73, 82, 1)"; } ]]]
+    - border-radius: 10px
+    - padding: 10px
+    - color: >
+        [[[ if (entity.state === "") { return "rgb(47, 207, 118)"; } else {
+        return "rgb(255, 255, 255)"; } ]]]
+    - font-size: 20px
+    - white-space: normal
+  name:
+    - font-weight: bold
+  label:
+    - white-space: normal
+    - display: block
+    - max-width: 100%
+  icon:
+    - color: >
+        [[[ if (entity.state === "") { return "rgb(47, 207, 118)"; } else {
+        return "rgb(255, 255, 255)"; } ]]]
+    - width: 80px
+    - height: 80px
+icon: >
+  [[[ if (entity.state !== "") { return "mdi:alert-circle"; } else { return
+  "mdi:hand-okay"; } ]]]
+show_label: true
+label: >
+  [[[ if (entity.state !== "") { return entity.state; } else { return "All
+  CLEAR"; } ]]]
+tap_action:
+  action: none
+hold_action:
+  action: none
+```
+
+This button-card example requires you to have [button-card](https://github.com/custom-cards/button-card) installed and provides similar functionality with fully customizable styles.
 
 ## 🧠 How It Works
 
