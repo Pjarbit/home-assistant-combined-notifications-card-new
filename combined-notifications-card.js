@@ -50,6 +50,31 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const card = document.createElement('ha-card');
     card.className = 'card-container';
+
+    const cardInner = document.createElement('div');
+    cardInner.className = 'card-inner';
+
+    const icon = document.createElement('ha-icon');
+    icon.style.display = 'block';
+
+    const header = document.createElement('div');
+    header.className = 'card-header';
+
+    const label = document.createElement('div');
+    label.className = 'card-label';
+
+    cardInner.appendChild(icon);
+    cardInner.appendChild(header);
+    cardInner.appendChild(label);
+    card.appendChild(cardInner);
+
+    this.cardElements = {
+      icon,
+      header,
+      label,
+      cardInner
+    };
+
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(card);
     this.card = card;
@@ -61,13 +86,16 @@ class CombinedNotificationsCard extends HTMLElement {
     const config = this.config;
     const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
+    const { icon, header, label } = this.cardElements;
+
     if (!stateObj) {
-      this.card.innerHTML = `
-        <div class="card-header">Entity not found</div>
-        <div>${entityId}</div>
-      `;
+      icon.style.display = 'none';
+      header.textContent = "Entity not found";
+      label.textContent = entityId;
       return;
     }
+
+    icon.style.display = 'block';
 
     const attrs = stateObj.attributes || {};
     const clearText = attrs.text_all_clear || config.text_all_clear || "ALL CLEAR";
@@ -80,7 +108,7 @@ class CombinedNotificationsCard extends HTMLElement {
       this.card.style.display = '';
     }
 
-    const icon = isClear
+    const iconName = isClear
       ? (attrs.icon_clear || config.icon_all_clear || "mdi:hand-okay")
       : (attrs.icon_alert || config.icon_alert || "mdi:alert-circle");
 
@@ -99,7 +127,7 @@ class CombinedNotificationsCard extends HTMLElement {
       ? this._resolveColor(config.text_color_all_clear || iconColor)
       : this._resolveColor(config.text_color_alert || iconColor);
 
-    const label = isClear ? clearText : stateObj.state;
+    const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
     const cardHeight = attrs.card_height || config.card_height || "auto";
@@ -107,27 +135,24 @@ class CombinedNotificationsCard extends HTMLElement {
     const iconSize = attrs.icon_size || config.icon_size || "80px";
     const iconScale = attrs.icon_scale || config.icon_scale || 1.75;
 
+    icon.setAttribute('icon', iconName);
+    icon.style.color = iconColor;
+    icon.style.width = `calc(${iconSize} * ${iconScale})`;
+    icon.style.height = `calc(${iconSize} * ${iconScale})`;
+    icon.style.fontSize = `calc(${iconSize} * ${iconScale})`;
+
+    header.style.color = textColor;
+    header.textContent = name;
+    header.style.display = config.hide_title ? 'none' : '';
+
+    label.style.color = textColor;
+    label.textContent = labelText || '\u00A0';
+
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
+    this.card.style.display = (config.hide_when_clear && isClear) ? 'none' : '';
     this.card.style.height = cardHeight;
     this.card.style.width = cardWidth;
-
-    this.card.innerHTML = `
-      <div class="card-inner">
-        <ha-icon
-          icon="${icon}"
-          style="
-            color: ${iconColor};
-            width: calc(${iconSize} * ${iconScale});
-            height: calc(${iconSize} * ${iconScale});
-            font-size: calc(${iconSize} * ${iconScale});
-            display: block;
-          ">
-        </ha-icon>
-        ${!config.hide_title ? `<div class="card-header" style="color: ${textColor};">${name}</div>` : ""}
-        <div class="card-label" style="color: ${textColor};">${label || "&nbsp;"}</div>
-      </div>
-    `;
   }
 
   _resolveColor(color) {
