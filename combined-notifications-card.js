@@ -9,7 +9,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       .card-container {
-        padding: 16px;
+        padding: 10px;
         border-radius: 10px;
         background: inherit;
         color: white;
@@ -25,7 +25,7 @@ class CombinedNotificationsCard extends HTMLElement {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 5px;
         height: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -33,13 +33,13 @@ class CombinedNotificationsCard extends HTMLElement {
 
       .card-header {
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 20px;
         margin: 0;
         text-transform: uppercase;
       }
 
       .card-label {
-        font-size: 1rem;
+        font-size: 18px;
         font-weight: 500;
         margin: 0;
         white-space: normal;
@@ -99,7 +99,7 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const attrs = stateObj.attributes || {};
     const clearText = attrs.text_all_clear || config.text_all_clear || "ALL CLEAR";
-    const isClear = stateObj.state === clearText;
+    const isClear = stateObj.state === "" || stateObj.state === clearText;
 
     if (config.hide_when_clear && isClear) {
       this.card.style.display = 'none';
@@ -130,16 +130,14 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    const cardHeight = attrs.card_height || config.card_height || "auto";
-    const cardWidth = attrs.card_width || config.card_width || "100%";
-    const iconSize = attrs.icon_size || config.icon_size || "80px";
-    const iconScale = attrs.icon_scale || config.icon_scale || 1.75;
+    // Fixed icon size to match button-card example
+    const iconSize = config.icon_size || "80px";
 
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
-    icon.style.width = `calc(${iconSize} * ${iconScale})`;
-    icon.style.height = `calc(${iconSize} * ${iconScale})`;
-    icon.style.fontSize = `calc(${iconSize} * ${iconScale})`;
+    icon.style.width = iconSize;
+    icon.style.height = iconSize;
+    icon.style.fontSize = iconSize;
 
     header.style.color = textColor;
     header.textContent = name;
@@ -150,9 +148,8 @@ class CombinedNotificationsCard extends HTMLElement {
 
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
-    this.card.style.display = (config.hide_when_clear && isClear) ? 'none' : '';
-    this.card.style.height = cardHeight;
-    this.card.style.width = cardWidth;
+    this.card.style.height = config.card_height || "auto";
+    this.card.style.width = config.card_width || "100%";
   }
 
   _resolveColor(color) {
@@ -181,20 +178,19 @@ class CombinedNotificationsCard extends HTMLElement {
   static getStubConfig() {
     return {
       entity: "",
-      header_name: "",
-      text_all_clear: "",
-      background_color_all_clear: "",
-      background_color_alert: "",
-      icon_all_clear: "",
-      icon_alert: "",
-      icon_color_all_clear: "",
-      icon_color_alert: "",
+      header_name: "NOTIFICATIONS",
+      text_all_clear: "ALL CLEAR",
+      background_color_all_clear: "rgba(67, 73, 82, 1)",
+      background_color_alert: "rgba(255, 0, 0, 0.7)",
+      icon_all_clear: "mdi:hand-okay",
+      icon_alert: "mdi:alert-circle",
+      icon_color_all_clear: "rgb(47, 207, 118)",
+      icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "100px",
+      card_height: "auto",
       card_width: "100%",
       icon_size: "80px",
-      icon_scale: 1.75,
       hide_when_clear: false,
       hide_title: false
     };
@@ -207,5 +203,5 @@ window.customCards = window.customCards || [];
 window.customCards.push({
   type: "combined-notifications-card",
   name: "Combined Notifications Card",
-  description: "Card that displays alert states from the Combined Notifications integration"
+  description: "Card that displays alert states from notifications"
 });
