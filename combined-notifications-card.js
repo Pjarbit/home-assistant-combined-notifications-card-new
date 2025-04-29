@@ -15,8 +15,8 @@ class CombinedNotificationsCard extends HTMLElement {
         color: white;
         text-align: center;
         box-sizing: border-box;
-        overflow: hidden;
         width: 100%;
+        overflow: visible !important; /* Ensure content doesn't get clipped */
       }
 
       .card-inner {
@@ -27,6 +27,9 @@ class CombinedNotificationsCard extends HTMLElement {
         gap: 5px;
         width: 100%;
         box-sizing: border-box;
+        height: auto !important;
+        min-height: 0;
+        overflow: visible !important;
       }
 
       .card-header {
@@ -34,6 +37,7 @@ class CombinedNotificationsCard extends HTMLElement {
         font-size: 20px;
         margin: 0;
         text-transform: uppercase;
+        overflow-wrap: break-word;
       }
 
       .card-label {
@@ -43,12 +47,14 @@ class CombinedNotificationsCard extends HTMLElement {
         white-space: normal;
         display: block;
         max-width: 100%;
+        overflow-wrap: break-word;
       }
 
       .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: visible !important;
       }
 
       ha-icon {
