@@ -38,13 +38,10 @@ class CombinedNotificationsCard extends HTMLElement {
         text-transform: uppercase;
       }
 
-      .card-label {
-        font-size: 18px;
-        font-weight: 500;
-        margin: 0;
-        white-space: normal;
-        display: block;
-        max-width: 100%;
+      .ha-icon {
+        width: var(--icon-size, 80px) !important;
+        height: var(--icon-size, 80px) !important;
+        font-size: var(--icon-size, 80px) !important;
       }
     `;
 
@@ -61,7 +58,9 @@ class CombinedNotificationsCard extends HTMLElement {
     iconContainer.style.width = '100%';
     
     const icon = document.createElement('ha-icon');
+    // Force icon to be block level and apply class for CSS targeting
     icon.style.display = 'block';
+    icon.className = 'ha-icon';
     
     iconContainer.appendChild(icon);
 
