@@ -114,14 +114,14 @@ class CombinedNotificationsCard extends HTMLElement {
     this.card.innerHTML = `
       <div class="card-inner">
         ${!config.hide_title ? `<div class="card-header" style="color: ${textColor};">${name}</div>` : ""}
-        <div class="card-icon" style="width: ${iconSize}; height: ${iconSize};">
+        <div class="card-icon">
           <ha-icon 
             icon="${icon}" 
             style="
               color: ${iconColor}; 
-              width: 100%; 
-              height: 100%; 
-              font-size: ${iconSize}; 
+              width: calc(${iconSize} * 1.4); 
+              height: calc(${iconSize} * 1.4); 
+              font-size: calc(${iconSize} * 1.4); 
               display: block;
             ">
           </ha-icon>
