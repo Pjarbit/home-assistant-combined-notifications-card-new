@@ -30,6 +30,7 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
         box-sizing: border-box;
+        min-height: 150px;
       }
 
       .card-header {
