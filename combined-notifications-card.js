@@ -54,8 +54,16 @@ class CombinedNotificationsCard extends HTMLElement {
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
 
+    const iconContainer = document.createElement('div');
+    iconContainer.style.display = 'flex';
+    iconContainer.style.justifyContent = 'center';
+    iconContainer.style.alignItems = 'center';
+    iconContainer.style.width = '100%';
+    
     const icon = document.createElement('ha-icon');
     icon.style.display = 'block';
+    
+    iconContainer.appendChild(icon);
 
     const header = document.createElement('div');
     header.className = 'card-header';
@@ -63,13 +71,14 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = document.createElement('div');
     label.className = 'card-label';
 
-    cardInner.appendChild(icon);
+    cardInner.appendChild(iconContainer);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
     card.appendChild(cardInner);
 
     this.cardElements = {
       icon,
+      iconContainer,
       header,
       label,
       cardInner
@@ -114,7 +123,7 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const bgColor = isClear
       ? this._resolveColor(attrs.color_clear || config.background_color_all_clear || "rgba(67, 73, 82, 1)")
-      : this._resolveColor(attrs.color_alert || config.background_color_alert || "rgba(255, 0, 0, 0.7)");
+      : this._resolveColor(attrs.color_alert || config.background_color_alert || "rgba(190, 11, 11, 0.9)");
 
     const defaultIconColorClear = "rgb(47, 207, 118)";
     const defaultIconColorAlert = "white";
@@ -135,9 +144,14 @@ class CombinedNotificationsCard extends HTMLElement {
 
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
+    // Set explicit large icon size
     icon.style.width = iconSize;
     icon.style.height = iconSize;
     icon.style.fontSize = iconSize;
+    
+    // Ensure the icon is properly sized and visible
+    icon.style.minWidth = iconSize;
+    icon.style.minHeight = iconSize;
 
     header.style.color = textColor;
     header.textContent = name;
@@ -156,6 +170,7 @@ class CombinedNotificationsCard extends HTMLElement {
     if (!color) return "inherit";
     if (color === "Use YOUR Current Theme Color") return "var(--primary-color)";
     if (color === "Transparent Background") return "transparent";
+    if (color === "Red") return "rgba(190, 11, 11, 0.9)"; // Force custom red
     return color;
   }
 
@@ -181,7 +196,7 @@ class CombinedNotificationsCard extends HTMLElement {
       header_name: "NOTIFICATIONS",
       text_all_clear: "ALL CLEAR",
       background_color_all_clear: "rgba(67, 73, 82, 1)",
-      background_color_alert: "rgba(255, 0, 0, 0.7)",
+      background_color_alert: "rgba(190, 11, 11, 0.9)",
       icon_all_clear: "mdi:hand-okay",
       icon_alert: "mdi:alert-circle",
       icon_color_all_clear: "rgb(47, 207, 118)",
@@ -190,7 +205,7 @@ class CombinedNotificationsCard extends HTMLElement {
       text_color_alert: "",
       card_height: "auto",
       card_width: "100%",
-      icon_size: "80px",
+      icon_size: "80px", // Default large size to match the button-card example
       hide_when_clear: false,
       hide_title: false
     };
