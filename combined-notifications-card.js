@@ -9,16 +9,16 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       .card-container {
-        padding: 16px;
+        padding: 10px;
         border-radius: 10px;
         background: inherit;
         color: white;
         text-align: center;
         box-sizing: border-box;
         overflow: hidden;
-        height: 100%;
-        width: 100%;
         min-height: 100px;
+        width: auto !important;
+        height: auto !important;
       }
 
       .card-inner {
@@ -26,7 +26,7 @@ class CombinedNotificationsCard extends HTMLElement {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 5px;
         height: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -47,6 +47,27 @@ class CombinedNotificationsCard extends HTMLElement {
         display: block;
         max-width: 100%;
       }
+
+      .spacer {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: 0.7;
+        visibility: hidden;
+      }
+
+      .icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px !important; /* Set to 150px */
+        height: 150px !important; /* Set to 150px */
+      }
+
+      ha-icon {
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
+      }
     `;
 
     const card = document.createElement('ha-card');
@@ -54,9 +75,13 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
+    
+    const iconWrapper = document.createElement('div');
+    iconWrapper.className = 'icon-wrapper';
 
     const icon = document.createElement('ha-icon');
-    icon.style.display = 'block';
+    icon.style.width = '100%';
+    icon.style.height = '100%';
 
     const header = document.createElement('div');
     header.className = 'card-header';
@@ -64,15 +89,23 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = document.createElement('div');
     label.className = 'card-label';
 
-    cardInner.appendChild(icon);
+    const spacer = document.createElement('div');
+    spacer.className = 'spacer';
+    spacer.innerHTML = ' '; // Non-breaking space to maintain spacing
+
+    iconWrapper.appendChild(icon);
+    cardInner.appendChild(iconWrapper);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
+    cardInner.appendChild(spacer);
     card.appendChild(cardInner);
 
     this.cardElements = {
       icon,
+      iconWrapper,
       header,
       label,
+      spacer,
       cardInner
     };
 
@@ -87,20 +120,21 @@ class CombinedNotificationsCard extends HTMLElement {
     const config = this.config;
     const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
-    const { icon, header, label } = this.cardElements;
+    const { icon, iconWrapper, header, label, spacer } = this.cardElements;
 
     if (!stateObj) {
-      icon.style.display = 'none';
+      iconWrapper.style.display = 'none';
       header.textContent = "Entity not found";
       label.textContent = entityId;
+      spacer.innerHTML = ' ';
       return;
     }
 
-    icon.style.display = 'block';
+    iconWrapper.style.display = 'flex';
 
     const attrs = stateObj.attributes || {};
     const clearText = attrs.text_all_clear || config.text_all_clear || "ALL CLEAR";
-    const isClear = stateObj.state === clearText;
+    const isClear = stateObj.state === "" || stateObj.state === clearText;
 
     if (config.hide_when_clear && isClear) {
       this.card.style.display = 'none';
@@ -114,8 +148,8 @@ class CombinedNotificationsCard extends HTMLElement {
       : (attrs.icon_alert || config.icon_alert || "mdi:alert-circle");
 
     const bgColor = isClear
-      ? this._resolveColor(attrs.color_clear || config.background_color_all_clear || "rgb(67, 73, 82)")
-      : this._resolveColor(attrs.color_alert || config.background_color_alert || "rgb(190, 11, 11)");
+      ? this._resolveColor(attrs.color_clear || config.background_color_all_clear || "rgba(67, 73, 82, 1)")
+      : this._resolveColor(attrs.color_alert || config.background_color_alert || "rgba(190, 11, 11, 0.9)");
 
     const defaultIconColorClear = "rgb(47, 207, 118)";
     const defaultIconColorAlert = "white";
@@ -131,15 +165,16 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    const cardHeight = attrs.card_height || config.card_height || "100px";
+    const cardHeight = attrs.card_height || config.card_height || "auto";
     const cardWidth = attrs.card_width || config.card_width || "100%";
-    const iconSize = attrs.icon_size || config.icon_size || "80px";
+    const iconSize = "150px"; // Hard-coded to 150px
+
+    iconWrapper.style.width = iconSize + ' !important';
+    iconWrapper.style.height = iconSize + ' !important';
+    icon.style.setProperty('--mdc-icon-size', iconSize, 'important');
 
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
-    icon.style.width = iconSize;
-    icon.style.height = iconSize;
-    icon.style.fontSize = iconSize;
 
     header.style.color = textColor;
     header.textContent = name;
@@ -148,18 +183,19 @@ class CombinedNotificationsCard extends HTMLElement {
     label.style.color = textColor;
     label.textContent = labelText || '\u00A0';
 
+    spacer.innerHTML = ' '; // Ensure spacer maintains space
+
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
-    this.card.style.display = (config.hide_when_clear && isClear) ? 'none' : '';
-    this.card.style.setProperty('height', cardHeight, 'important');
-    this.card.style.width = cardWidth;
+    this.card.style.height = cardHeight + ' !important';
+    this.card.style.width = cardWidth + ' !important';
   }
 
   _resolveColor(color) {
     if (!color) return "inherit";
     if (color === "Use YOUR Current Theme Color") return "var(--primary-color)";
     if (color === "Transparent Background") return "transparent";
-    if (color === "Red") return "rgb(190, 11, 11)";
+    if (color === "Red") return "rgba(190, 11, 11, 0.9)";
     return color;
   }
 
@@ -182,17 +218,17 @@ class CombinedNotificationsCard extends HTMLElement {
   static getStubConfig() {
     return {
       entity: "",
-      header_name: "",
-      text_all_clear: "",
-      background_color_all_clear: "",
-      background_color_alert: "",
-      icon_all_clear: "",
-      icon_alert: "",
-      icon_color_all_clear: "",
-      icon_color_alert: "",
+      header_name: "NOTIFICATIONS",
+      text_all_clear: "ALL CLEAR",
+      background_color_all_clear: "rgba(67, 73, 82, 1)",
+      background_color_alert: "rgba(190, 11, 11, 0.9)",
+      icon_all_clear: "mdi:hand-okay",
+      icon_alert: "mdi:alert-circle",
+      icon_color_all_clear: "rgb(47, 207, 118)",
+      icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "100px",
+      card_height: "auto",
       card_width: "100%",
       icon_size: "80px",
       hide_when_clear: false,
@@ -207,5 +243,5 @@ window.customCards = window.customCards || [];
 window.customCards.push({
   type: "combined-notifications-card",
   name: "Combined Notifications Card",
-  description: "Card that displays alert states from the Combined Notifications integration"
+  description: "Card that displays alert states from notifications"
 });
