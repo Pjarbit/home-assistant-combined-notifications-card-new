@@ -1,5 +1,4 @@
 class CombinedNotificationsCard extends HTMLElement {
-  // Card constructor - initialize properties
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -12,25 +11,32 @@ class CombinedNotificationsCard extends HTMLElement {
       .card-container {
         padding: 16px;
         border-radius: 10px;
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
         color: white;
+        text-align: center;
       }
+
       .card-header {
         font-weight: bold;
-        font-size: 20px;
-        margin-bottom: 10px;
+        font-size: 1.2rem;
+        margin: 0;
         text-transform: uppercase;
       }
+
       .card-icon {
-        margin: 10px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      .card-icon ha-icon {
-        width: 80px;
-        height: 80px;
-      }
+
       .card-label {
-        font-size: 16px;
-        margin-top: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 0;
         white-space: normal;
       }
     `;
@@ -40,7 +46,6 @@ class CombinedNotificationsCard extends HTMLElement {
 
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(card);
-
     this.card = card;
   }
 
@@ -48,13 +53,8 @@ class CombinedNotificationsCard extends HTMLElement {
     if (!hass || !this.config) return;
 
     const config = this.config;
-
-    const entityId = config.entity.startsWith('sensor.')
-      ? config.entity
-      : `sensor.${config.entity}`;
-
+    const entityId = config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
-
     if (!stateObj) {
       this.card.innerHTML = `
         <div class="card-header">Entity not found</div>
@@ -64,7 +64,6 @@ class CombinedNotificationsCard extends HTMLElement {
     }
 
     const attrs = stateObj.attributes || {};
-
     const clearText = attrs.text_all_clear || config.text_all_clear || "ALL CLEAR";
     const isClear = stateObj.state === clearText;
 
@@ -97,13 +96,19 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
+    const cardHeight = attrs.card_height || config.card_height || "auto";
+    const cardWidth = attrs.card_width || config.card_width || "100%";
+    const iconSize = attrs.icon_size || config.icon_size || "80px";
+
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
+    this.card.style.height = cardHeight;
+    this.card.style.width = cardWidth;
 
     this.card.innerHTML = `
       ${!config.hide_title ? `<div class="card-header" style="color: ${textColor};">${name}</div>` : ""}
       <div class="card-icon">
-        <ha-icon icon="${icon}" style="color: ${iconColor};"></ha-icon>
+        <ha-icon icon="${icon}" style="color: ${iconColor}; width: ${iconSize}; height: ${iconSize};"></ha-icon>
       </div>
       <div class="card-label" style="color: ${textColor};">${label}</div>
     `;
@@ -145,7 +150,11 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "",
       text_color_all_clear: "",
       text_color_alert: "",
-      hide_when_clear: false
+      card_height: "100px",
+      card_width: "100%",
+      icon_size: "80px",
+      hide_when_clear: false,
+      hide_title: false
     };
   }
 }
