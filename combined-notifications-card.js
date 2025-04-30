@@ -9,7 +9,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       .card-container {
-        padding: 15px 10px 10px 10px; /* Top padding to 15px */
+        padding: 20px 10px 10px 10px; /* Top padding to 15px */
         border-radius: 10px;
         background: inherit;
         color: white;
