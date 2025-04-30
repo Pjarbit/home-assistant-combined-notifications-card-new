@@ -8,8 +8,13 @@ class CombinedNotificationsCard extends HTMLElement {
   _createCard() {
     const style = document.createElement('style');
     style.textContent = `
+      :host {
+        display: block; /* Ensure the custom element behaves as a block */
+        width: 100%; /* Take full width of parent */
+      }
+
       .card-container {
-        padding: 20px 10px 10px 10px; /* Top padding at 20px */
+        padding: 20px 10px 10px 10px;
         border-radius: 10px;
         background: inherit;
         color: white;
@@ -17,9 +22,11 @@ class CombinedNotificationsCard extends HTMLElement {
         box-sizing: border-box;
         overflow: hidden;
         width: 315px !important;
-        height: 150px; /* Reduced by 5px */
+        height: 150px;
         min-width: 315px;
-        min-height: 130px; /* Reduced by 5px */
+        min-height: 130px;
+        display: block; /* Ensure block-level behavior */
+        flex: 0 0 auto; /* Prevent shrinking in horizontal-stack */
       }
 
       .card-inner {
@@ -31,7 +38,7 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
         box-sizing: border-box;
-        min-height: 110px; /* Reduced by 5px */
+        min-height: 110px;
       }
 
       .icon-wrapper {
@@ -230,7 +237,7 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "150px", // Updated default
+      card_height: "150px",
       card_width: "315px",
       icon_size: "75px",
       hide_when_clear: false,
