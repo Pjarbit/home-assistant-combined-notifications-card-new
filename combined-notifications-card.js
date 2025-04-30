@@ -9,10 +9,8 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       :host {
-        display: block;
-        width: 100%;
-        min-width: 315px; /* Match default card width */
-        box-sizing: border-box; /* Ensure padding/margins don't interfere */
+        display: inline-block; /* Break out of flex context */
+        margin: 0 5px; /* Add spacing between cards */
       }
 
       .card-container {
@@ -27,11 +25,7 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 150px;
         min-width: 315px;
         min-height: 130px;
-        display: block;
-        flex: 0 0 auto;
-        flex-shrink: 0; /* Explicitly prevent shrinking */
-        position: relative; /* Ensure proper positioning */
-        margin-right: 10px; /* Add gap between cards in horizontal-stack */
+        position: relative;
       }
 
       .card-inner {
@@ -203,6 +197,7 @@ class CombinedNotificationsCard extends HTMLElement {
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
     this.card.style.setProperty('width', cardWidth, 'important');
+    this.style.width = cardWidth + ' !important'; // Enforce width on custom element
   }
 
   _resolveColor(color) {
