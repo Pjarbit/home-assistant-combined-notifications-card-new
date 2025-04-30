@@ -17,9 +17,9 @@ class CombinedNotificationsCard extends HTMLElement {
         box-sizing: border-box;
         overflow: hidden;
         width: 315px !important;
-        height: 140px; /* Reduced to 140px */
+        height: 150px; /* Increased to 150px */
         min-width: 315px;
-        min-height: 120px; /* Reduced to 120px */
+        min-height: 130px; /* Increased to 130px */
       }
 
       .card-inner {
@@ -27,18 +27,18 @@ class CombinedNotificationsCard extends HTMLElement {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 3px; /* Reduced to 3px */
+        gap: 5px;
         height: 100%;
         width: 100%;
         box-sizing: border-box;
-        min-height: 110px; /* Reduced to 110px */
+        min-height: 110px; /* Increased to 110px */
       }
 
       .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 90px !important; /* Updated to match default icon size */
+        width: 90px !important;
         height: 90px !important;
       }
 
@@ -50,13 +50,13 @@ class CombinedNotificationsCard extends HTMLElement {
 
       .card-header {
         font-weight: 500;
-        font-size: 20px; /* Increased to 20px */
+        font-size: 20px;
         margin: 0;
         text-transform: uppercase;
       }
 
       .card-label {
-        font-size: 14px; /* Remains 14px */
+        font-size: 14px;
         font-weight: 400;
         margin: 0;
         white-space: normal;
@@ -167,7 +167,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    const iconSize = attrs.icon_size || config.icon_size || "90px"; // Updated default to 90px
+    const iconSize = attrs.icon_size || config.icon_size || "90px";
     const cardWidth = attrs.card_width || config.card_width || "315px";
 
     iconWrapper.style.width = iconSize + ' !important';
@@ -228,9 +228,9 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "140px", // Updated default
+      card_height: "150px", // Updated default
       card_width: "315px",
-      icon_size: "90px", // Updated default
+      icon_size: "90px",
       hide_when_clear: false,
       hide_title: false
     };
