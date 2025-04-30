@@ -9,15 +9,17 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       .card-container {
-        padding: 10px;
+        padding: 15px 10px 10px 10px; /* Top padding to 15px */
         border-radius: 10px;
         background: inherit;
         color: white;
         text-align: center;
         box-sizing: border-box;
         overflow: hidden;
-        height: 100%;
-        width: 100%;
+        width: 315px !important;
+        height: 155px; /* Increased by 5px */
+        min-width: 315px;
+        min-height: 135px; /* Increased by 5px */
       }
 
       .card-inner {
@@ -29,30 +31,44 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
         box-sizing: border-box;
+        min-height: 115px; /* Increased by 5px */
+      }
+
+      .icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 75px !important; /* Updated to 75px */
+        height: 75px !important;
+      }
+
+      ha-icon {
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
       }
 
       .card-header {
-        font-weight: bold;
+        font-weight: 500;
         font-size: 20px;
         margin: 0;
         text-transform: uppercase;
       }
 
       .card-label {
-        font-size: 18px;
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: 400;
         margin: 0;
         white-space: normal;
         display: block;
         max-width: 100%;
       }
-      
-      .icon-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 80px;
-        height: 80px;
+
+      .spacer {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: 0.7;
+        visibility: hidden;
       }
     `;
 
@@ -62,17 +78,12 @@ class CombinedNotificationsCard extends HTMLElement {
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
     
-    // Create a wrapper for the icon
     const iconWrapper = document.createElement('div');
     iconWrapper.className = 'icon-wrapper';
-    iconWrapper.style.display = 'flex';
-    iconWrapper.style.alignItems = 'center';
-    iconWrapper.style.justifyContent = 'center';
 
     const icon = document.createElement('ha-icon');
     icon.style.width = '100%';
     icon.style.height = '100%';
-    icon.style.fontSize = '1em';
 
     const header = document.createElement('div');
     header.className = 'card-header';
@@ -80,10 +91,15 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = document.createElement('div');
     label.className = 'card-label';
 
+    const spacer = document.createElement('div');
+    spacer.className = 'spacer';
+    spacer.innerHTML = ' ';
+
     iconWrapper.appendChild(icon);
     cardInner.appendChild(iconWrapper);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
+    cardInner.appendChild(spacer);
     card.appendChild(cardInner);
 
     this.cardElements = {
@@ -91,6 +107,7 @@ class CombinedNotificationsCard extends HTMLElement {
       iconWrapper,
       header,
       label,
+      spacer,
       cardInner
     };
 
@@ -105,12 +122,13 @@ class CombinedNotificationsCard extends HTMLElement {
     const config = this.config;
     const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
-    const { icon, iconWrapper, header, label } = this.cardElements;
+    const { icon, iconWrapper, header, label, spacer } = this.cardElements;
 
     if (!stateObj) {
       iconWrapper.style.display = 'none';
       header.textContent = "Entity not found";
       label.textContent = entityId;
+      spacer.innerHTML = ' ';
       return;
     }
 
@@ -149,14 +167,13 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    const cardHeight = attrs.card_height || config.card_height || "auto";
-    const cardWidth = attrs.card_width || config.card_width || "100%";
-    const iconSize = attrs.icon_size || config.icon_size || "80px";
-    
-    // Set the size on the wrapper rather than the icon itself
-    iconWrapper.style.width = iconSize;
-    iconWrapper.style.height = iconSize;
-    
+    const iconSize = attrs.icon_size || config.icon_size || "75px"; // Updated default to 75px
+    const cardWidth = attrs.card_width || config.card_width || "315px";
+
+    iconWrapper.style.width = iconSize + ' !important';
+    iconWrapper.style.height = iconSize + ' !important';
+    icon.style.setProperty('--mdc-icon-size', iconSize, 'important');
+
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
 
@@ -167,17 +184,18 @@ class CombinedNotificationsCard extends HTMLElement {
     label.style.color = textColor;
     label.textContent = labelText || '\u00A0';
 
+    spacer.innerHTML = ' ';
+
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
-    this.card.style.height = cardHeight;
-    this.card.style.width = cardWidth;
+    this.card.style.setProperty('width', cardWidth, 'important');
   }
 
   _resolveColor(color) {
     if (!color) return "inherit";
     if (color === "Use YOUR Current Theme Color") return "var(--primary-color)";
     if (color === "Transparent Background") return "transparent";
-    if (color === "Red") return "rgba(190, 11, 11, 0.9)"; // Force custom red
+    if (color === "Red") return "rgba(190, 11, 11, 0.9)";
     return color;
   }
 
@@ -210,9 +228,9 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "auto",
-      card_width: "100%",
-      icon_size: "80px",
+      card_height: "155px", // Updated default
+      card_width: "315px",
+      icon_size: "75px", // Updated default
       hide_when_clear: false,
       hide_title: false
     };
