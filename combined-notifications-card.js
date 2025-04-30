@@ -9,7 +9,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       .card-container {
-        padding: 20px 10px 10px 10px; /* Top padding to 15px */
+        padding: 20px 10px 10px 10px; /* Top padding at 20px */
         border-radius: 10px;
         background: inherit;
         color: white;
@@ -17,9 +17,9 @@ class CombinedNotificationsCard extends HTMLElement {
         box-sizing: border-box;
         overflow: hidden;
         width: 315px !important;
-        height: 155px; /* Increased by 5px */
+        height: 150px; /* Reduced by 5px */
         min-width: 315px;
-        min-height: 135px; /* Increased by 5px */
+        min-height: 130px; /* Reduced by 5px */
       }
 
       .card-inner {
@@ -31,14 +31,14 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
         box-sizing: border-box;
-        min-height: 115px; /* Increased by 5px */
+        min-height: 110px; /* Reduced by 5px */
       }
 
       .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 75px !important; /* Updated to 75px */
+        width: 75px !important;
         height: 75px !important;
       }
 
@@ -53,6 +53,7 @@ class CombinedNotificationsCard extends HTMLElement {
         font-size: 20px;
         margin: 0;
         text-transform: uppercase;
+        line-height: 1;
       }
 
       .card-label {
@@ -62,6 +63,7 @@ class CombinedNotificationsCard extends HTMLElement {
         white-space: normal;
         display: block;
         max-width: 100%;
+        line-height: 1;
       }
 
       .spacer {
@@ -167,7 +169,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    const iconSize = attrs.icon_size || config.icon_size || "75px"; // Updated default to 75px
+    const iconSize = attrs.icon_size || config.icon_size || "75px";
     const cardWidth = attrs.card_width || config.card_width || "315px";
 
     iconWrapper.style.width = iconSize + ' !important';
@@ -228,9 +230,9 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "155px", // Updated default
+      card_height: "150px", // Updated default
       card_width: "315px",
-      icon_size: "75px", // Updated default
+      icon_size: "75px",
       hide_when_clear: false,
       hide_title: false
     };
