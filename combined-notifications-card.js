@@ -16,10 +16,10 @@ class CombinedNotificationsCard extends HTMLElement {
         text-align: center;
         box-sizing: border-box;
         overflow: hidden;
-        width: 315px;
-        height: 220px; /* Increased to 220px */
+        width: 315px !important; /* Added !important */
+        height: 176px; /* Reduced by 20% from 220px */
         min-width: 315px;
-        min-height: 200px; /* Set to 200px */
+        min-height: 160px; /* Reduced by 20% from 200px */
       }
 
       .card-inner {
@@ -31,7 +31,7 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
         box-sizing: border-box;
-        min-height: 180px; /* Increased to 180px */
+        min-height: 144px; /* Reduced by 20% from 180px */
       }
 
       .icon-wrapper {
@@ -93,7 +93,7 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const spacer = document.createElement('div');
     spacer.className = 'spacer';
-    spacer.innerHTML = ' '; // Non-breaking space to maintain spacing
+    spacer.innerHTML = ' ';
 
     iconWrapper.appendChild(icon);
     cardInner.appendChild(iconWrapper);
@@ -168,6 +168,7 @@ class CombinedNotificationsCard extends HTMLElement {
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
     const iconSize = attrs.icon_size || config.icon_size || "150px";
+    const cardWidth = attrs.card_width || config.card_width || "315px";
 
     iconWrapper.style.width = iconSize + ' !important';
     iconWrapper.style.height = iconSize + ' !important';
@@ -187,6 +188,7 @@ class CombinedNotificationsCard extends HTMLElement {
 
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
+    this.card.style.setProperty('width', cardWidth, 'important'); // Apply width with !important
   }
 
   _resolveColor(color) {
@@ -226,7 +228,7 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "220px", /* Updated default */
+      card_height: "176px", // Updated default
       card_width: "315px",
       icon_size: "150px",
       hide_when_clear: false,
