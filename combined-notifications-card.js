@@ -9,8 +9,10 @@ class CombinedNotificationsCard extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = `
       :host {
-        display: block; /* Ensure the custom element behaves as a block */
-        width: 100%; /* Take full width of parent */
+        display: block;
+        width: 100%;
+        min-width: 315px; /* Match default card width */
+        box-sizing: border-box; /* Ensure padding/margins don't interfere */
       }
 
       .card-container {
@@ -25,8 +27,11 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 150px;
         min-width: 315px;
         min-height: 130px;
-        display: block; /* Ensure block-level behavior */
-        flex: 0 0 auto; /* Prevent shrinking in horizontal-stack */
+        display: block;
+        flex: 0 0 auto;
+        flex-shrink: 0; /* Explicitly prevent shrinking */
+        position: relative; /* Ensure proper positioning */
+        margin-right: 10px; /* Add gap between cards in horizontal-stack */
       }
 
       .card-inner {
