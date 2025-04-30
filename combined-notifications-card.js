@@ -15,8 +15,11 @@ class CombinedNotificationsCard extends HTMLElement {
         color: white;
         text-align: center;
         box-sizing: border-box;
-        width: 100%;
-        overflow: visible !important; /* Ensure content doesn't get clipped */
+        overflow: hidden;
+        width: 315px;
+        height: 220px; /* Increased to 220px */
+        min-width: 315px;
+        min-height: 200px; /* Set to 200px */
       }
 
       .card-inner {
@@ -25,42 +28,47 @@ class CombinedNotificationsCard extends HTMLElement {
         align-items: center;
         justify-content: center;
         gap: 5px;
+        height: 100%;
         width: 100%;
         box-sizing: border-box;
-        height: auto !important;
-        min-height: 0;
-        overflow: visible !important;
-      }
-
-      .card-header {
-        font-weight: bold;
-        font-size: 20px;
-        margin: 0;
-        text-transform: uppercase;
-        overflow-wrap: break-word;
-      }
-
-      .card-label {
-        font-size: 18px;
-        font-weight: 500;
-        margin: 0;
-        white-space: normal;
-        display: block;
-        max-width: 100%;
-        overflow-wrap: break-word;
+        min-height: 180px; /* Increased to 180px */
       }
 
       .icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: visible !important;
+        width: 150px !important;
+        height: 150px !important;
       }
 
       ha-icon {
-        width: 100%;
-        height: 100%;
+        width: 100% !important;
+        height: 100% !important;
         display: block;
+      }
+
+      .card-header {
+        font-weight: 500;
+        font-size: 16px;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .card-label {
+        font-size: 14px;
+        font-weight: 400;
+        margin: 0;
+        white-space: normal;
+        display: block;
+        max-width: 100%;
+      }
+
+      .spacer {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: 0.7;
+        visibility: hidden;
       }
     `;
 
@@ -69,11 +77,13 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
-
+    
     const iconWrapper = document.createElement('div');
     iconWrapper.className = 'icon-wrapper';
 
     const icon = document.createElement('ha-icon');
+    icon.style.width = '100%';
+    icon.style.height = '100%';
 
     const header = document.createElement('div');
     header.className = 'card-header';
@@ -81,10 +91,15 @@ class CombinedNotificationsCard extends HTMLElement {
     const label = document.createElement('div');
     label.className = 'card-label';
 
+    const spacer = document.createElement('div');
+    spacer.className = 'spacer';
+    spacer.innerHTML = ' '; // Non-breaking space to maintain spacing
+
     iconWrapper.appendChild(icon);
     cardInner.appendChild(iconWrapper);
     cardInner.appendChild(header);
     cardInner.appendChild(label);
+    cardInner.appendChild(spacer);
     card.appendChild(cardInner);
 
     this.cardElements = {
@@ -92,6 +107,7 @@ class CombinedNotificationsCard extends HTMLElement {
       iconWrapper,
       header,
       label,
+      spacer,
       cardInner
     };
 
@@ -106,12 +122,13 @@ class CombinedNotificationsCard extends HTMLElement {
     const config = this.config;
     const entityId = config.entity && config.entity.startsWith('sensor.') ? config.entity : `sensor.${config.entity}`;
     const stateObj = hass.states[entityId];
-    const { icon, iconWrapper, header, label } = this.cardElements;
+    const { icon, iconWrapper, header, label, spacer } = this.cardElements;
 
     if (!stateObj) {
       iconWrapper.style.display = 'none';
       header.textContent = "Entity not found";
       label.textContent = entityId;
+      spacer.innerHTML = ' ';
       return;
     }
 
@@ -150,13 +167,11 @@ class CombinedNotificationsCard extends HTMLElement {
     const labelText = isClear ? clearText : stateObj.state;
     const name = attrs.friendly_name || config.header_name || "NOTIFICATIONS";
 
-    const cardHeight = attrs.card_height || config.card_height || "auto";
-    const cardWidth = attrs.card_width || config.card_width || "100%";
-    const iconSize = attrs.icon_size || config.icon_size || "80px";
+    const iconSize = attrs.icon_size || config.icon_size || "150px";
 
-    iconWrapper.style.width = iconSize;
-    iconWrapper.style.height = iconSize;
-    icon.style.setProperty('--mdc-icon-size', iconSize);
+    iconWrapper.style.width = iconSize + ' !important';
+    iconWrapper.style.height = iconSize + ' !important';
+    icon.style.setProperty('--mdc-icon-size', iconSize, 'important');
 
     icon.setAttribute('icon', iconName);
     icon.style.color = iconColor;
@@ -168,17 +183,17 @@ class CombinedNotificationsCard extends HTMLElement {
     label.style.color = textColor;
     label.textContent = labelText || '\u00A0';
 
+    spacer.innerHTML = ' ';
+
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
-    this.card.style.height = cardHeight;
-    this.card.style.width = cardWidth;
   }
 
   _resolveColor(color) {
     if (!color) return "inherit";
     if (color === "Use YOUR Current Theme Color") return "var(--primary-color)";
     if (color === "Transparent Background") return "transparent";
-    if (color === "Red") return "rgba(190, 11, 11, 0.9)"; // Force custom red
+    if (color === "Red") return "rgba(190, 11, 11, 0.9)";
     return color;
   }
 
@@ -211,9 +226,9 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "auto",
-      card_width: "100%",
-      icon_size: "80px",
+      card_height: "220px", /* Updated default */
+      card_width: "315px",
+      icon_size: "150px",
       hide_when_clear: false,
       hide_title: false
     };
