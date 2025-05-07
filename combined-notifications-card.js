@@ -8,19 +8,18 @@ class CombinedNotificationsCard extends HTMLElement {
   _createCard() {
     const style = document.createElement('style');
     style.textContent = `
-      .card-container {
-        padding: 20px 10px 10px 10px; /* Top padding at 20px */
-        border-radius: 10px;
-        background: inherit;
-        color: white;
-        text-align: center;
-        box-sizing: border-box;
-        overflow: hidden;
-        width: 315px !important;
-        height: 150px; /* Reduced by 5px */
-        min-width: 315px;
-        min-height: 130px; /* Reduced by 5px */
+      .card-container { 
+        padding: 20px 10px 10px 10px; 
+        border-radius: 10px; 
+        background: inherit; 
+        color: white; 
+        text-align: center; 
+        box-sizing: border-box; 
+        overflow: hidden; 
+        height: 150px; 
+        min-height: 130px; 
       }
+
 
       .card-inner {
         display: flex;
