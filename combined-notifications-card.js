@@ -8,18 +8,17 @@ class CombinedNotificationsCard extends HTMLElement {
   _createCard() {
     const style = document.createElement('style');
     style.textContent = `
-      .card-container { 
-        padding: 20px 10px 10px 10px; 
-        border-radius: 10px; 
-        background: inherit; 
-        color: white; 
-        text-align: center; 
-        box-sizing: border-box; 
-        overflow: hidden; 
-        height: 150px; 
-        min-height: 130px; 
+      .card-container {
+        padding: 20px 10px 10px 10px;
+        border-radius: 10px;
+        background: inherit;
+        color: white;
+        text-align: center;
+        box-sizing: border-box;
+        overflow: hidden;
+        height: 150px;
+        min-height: 130px;
       }
-
 
       .card-inner {
         display: flex;
@@ -30,7 +29,7 @@ class CombinedNotificationsCard extends HTMLElement {
         height: 100%;
         width: 100%;
         box-sizing: border-box;
-        min-height: 110px; /* Reduced by 5px */
+        min-height: 110px;
       }
 
       .icon-wrapper {
@@ -78,7 +77,7 @@ class CombinedNotificationsCard extends HTMLElement {
 
     const cardInner = document.createElement('div');
     cardInner.className = 'card-inner';
-    
+
     const iconWrapper = document.createElement('div');
     iconWrapper.className = 'icon-wrapper';
 
@@ -109,7 +108,7 @@ class CombinedNotificationsCard extends HTMLElement {
       header,
       label,
       spacer,
-      cardInner
+      cardInner,
     };
 
     this.shadowRoot.appendChild(style);
@@ -189,7 +188,9 @@ class CombinedNotificationsCard extends HTMLElement {
 
     this.card.style.background = bgColor;
     this.card.style.color = textColor;
-    this.card.style.setProperty('width', cardWidth, 'important');
+
+    // ✅ Apply card_width to outer element, not ha-card
+    this.style.setProperty('width', cardWidth, 'important');
   }
 
   _resolveColor(color) {
@@ -208,7 +209,7 @@ class CombinedNotificationsCard extends HTMLElement {
     this.config = {
       ...config,
       hide_when_clear: config.hide_when_clear === true,
-      hide_title: config.hide_title === true
+      hide_title: config.hide_title === true,
     };
   }
 
@@ -229,11 +230,11 @@ class CombinedNotificationsCard extends HTMLElement {
       icon_color_alert: "white",
       text_color_all_clear: "",
       text_color_alert: "",
-      card_height: "150px", // Updated default
+      card_height: "150px",
       card_width: "315px",
       icon_size: "75px",
       hide_when_clear: false,
-      hide_title: false
+      hide_title: false,
     };
   }
 }
@@ -244,5 +245,5 @@ window.customCards = window.customCards || [];
 window.customCards.push({
   type: "combined-notifications-card",
   name: "Combined Notifications Card",
-  description: "Card that displays alert states from notifications"
+  description: "Card that displays alert states from notifications",
 });
