@@ -1,6 +1,6 @@
 # Combined Notifications Card
 
-A custom Lovelace card for Home Assistant that works with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notifications) to display grouped entity notifications with dynamic styling.
+A custom Lovelace card for Home Assistant that works with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notification-integration) to display grouped entity notifications with dynamic styling.
 
 ![Combined Notifications Card Demo](media/demo.gif)
 
@@ -155,7 +155,7 @@ When all conditions are normal:
 
 ## 📚 Related
 
-This card is designed to work with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notifications). Please install the integration first to create notification group sensors.
+This card is designed to work with the [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notification-integration). Please install the integration first to create notification group sensors.
 
 ## 🤝 Contributing
 
