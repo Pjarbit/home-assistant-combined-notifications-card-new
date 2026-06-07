@@ -1,6 +1,8 @@
 # Combined Notifications Card 
-# THIS IS NO LONGER RECOMMENDED 
-# USE THE CUSTOM YAML CARDS IN README OF COMBINED NOTIFICATIONS INTEGRATION
+# THIS CARD IS NO LONGER RECOMMENDED 
+# USE THE CUSTOM YAML CARDS IN README OF COMBINED NOTIFICATIONS INTEGRATION INSTEAD OF THIS CARD
+
+# Honestly, It sucks compared to the cards listed in the readme or Alert Ticker Cards
 
 [Combined Notifications Integration](https://github.com/Pjarbit/home-assistant-combined-notification-integration) 
 ![Combined Notifications Card Demo](media/demo.gif)
